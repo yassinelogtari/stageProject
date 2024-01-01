@@ -1,0 +1,250 @@
+.logInContainer {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+  }
+  .cimfImage{
+    height: 300px;
+    width: 100px;
+    padding-right: 5px;
+  }
+  
+  .logInLeftContainer {
+    background-color: #ecfef2;
+    flex: 55%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  
+ 
+  .logInImage {
+    width: 120%;
+    height: 100%;
+   
+  }
+  
+  .logInFormContainer {
+    flex: 45%;
+    padding: 0 140px;
+    display: flex;
+    flex-direction: column;
+   
+    height: 100vh;
+  }
+  
+  .logInTitle {
+    font-size: 28px;
+    font-weight: 800;
+    color: #000;
+    margin-left: 150px;
+  }
+  .paragrapeh{
+    margin-left: 50px;
+  }
+
+  .logInDescription {
+    font-size: 14px;
+    color: #7a7f88;
+    font-weight: 700;
+    
+  }
+  
+  .logInForm {
+    display: flex;
+    flex-direction: column;
+    margin-top: 24px;
+  }
+  
+  .loginFormInputError {
+    font-size: 14px;
+    font-weight: 500;
+    color: #d32f2f;
+    line-height: 1;
+  }
+  
+  .underPasswordContainer {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .logInCheckboxContainer {
+    padding-top: 10px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .logInButton {
+    width: 100%;
+    border-radius: 4px;
+    background-color: #6439ff;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 800;
+    padding: 16.5px;
+    margin-top: 16px;
+  }
+  
+  .logInButton:hover {
+    background-color: #5d39fdcc;
+  }
+  
+  .underLogInButtonContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 16px 0;
+  }
+  
+  .underLogInButtonText {
+    font-size: 14px;
+    font-weight: 800;
+    color: #5d6a82;
+  }
+  
+  .underLogInButtonLine {
+    height: 1px;
+    width: 150px;
+    background-color: #eaecef;
+  }
+  
+  .facebookLogInButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    background-color: #1877f2;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 800;
+    padding: 16.5px;
+  }
+  
+  .facebookLogInButton:hover {
+    text-decoration: none;
+    color: #fff;
+  }
+  
+  .facebookLogInButtonIcon {
+    margin-right: 5px;
+  }
+  
+  .logInRegisterContainer {
+    margin-top: 16px;
+  }
+  
+ 
+  
+  .logInRegisterLink {
+    margin-left: 5px;
+    color: #1877f2;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  
+  .logInRegisterLink:hover {
+    color: #1877f2;
+  }
+  
+  .logInHomeContainer {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .logInHomeIconLink {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #6439ff;
+    border-radius: 100px;
+    margin-top: 16px;
+  }
+  
+  .logInHomeIcon {
+    color: #6439ff;
+  }
+  
+  @media (max-width: 769px) {
+    .logInLeftContainer {
+      display: none;
+    }
+  
+    .logInFormContainer {
+      background-color: #ecfef2;
+      padding-left: 0;
+      padding-right: 0;
+      align-items: center;
+    }
+  
+    .logInFormTitleContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      max-width: 290.4px;
+
+    }
+   
+  
+    .logInForgotPassword {
+      font-size: 12px;
+    }
+  
+    .logInCheckboxContainer {
+      padding-top: 0;
+      font-size: 14px;
+    }
+  
+    .logInFormContainer .underLogInButtonContainer {
+      width: 290.4px;
+    }
+  
+    .underLogInButtonContainer .underLogInButtonLine {
+      width: 110px;
+    }
+  
+    .facebookLogInButton {
+      width: 290.4px;
+      font-size: 12px;
+    }
+  
+    .logInRegisterContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .logInHomeContainer {
+      justify-content: center;
+    }
+  }
+  
+  @media (max-width: 450px) {
+    .logInFormTitleContainer {
+      max-width: 210px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  
+    .logInInput,
+    .logInButton,
+    .facebookLogInButton {
+      width: 210px;
+      font-size: 12px;
+    }
+  
+    .logInFormContainer .underLogInButtonContainer {
+      width: 210px;
+    }
+  
+    .underLogInButtonContainer .underLogInButtonLine {
+      width: 80px;
+    }
+  }
