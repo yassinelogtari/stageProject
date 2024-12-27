@@ -1,28 +1,28 @@
-import React, { useState,useEffect } from 'react';
-import Sidebar from '../../components/sidebar/Sidebar';
-import Navbar from '../../components/navbar/Navbar';
-import Datatable from '../../components/datatableFiles/Datatable';
-import UploadFileIcon from '@mui/icons-material/UploadFile';
-import axios from 'axios';
-import './files.scss';
+import React, { useState, useEffect } from "react";
+import Sidebar from "../../components/sidebar/Sidebar";
+import Navbar from "../../components/navbar/Navbar";
+import Datatable from "../../components/datatableFiles/Datatable";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
+import axios from "axios";
+import "./files.scss";
 
 export default function Files() {
-  const [month, setMonth] = useState('');
-  const [year, setYear] = useState('');
+  const [month, setMonth] = useState("");
+  const [year, setYear] = useState("");
 
-  const handleUpload = async(event) => {
+  const handleUpload = async (event) => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append('file', event.target.file.files[0]);
-    formData.append('month', month);
-    formData.append('year', year);
-    axios.post('/api/upload', formData)
+    formData.append("file", event.target.file.files[0]);
+    formData.append("month", month);
+    formData.append("year", year);
+    axios
+      .post("/api/upload", formData)
       .then((response) => {
-       
-        window.location.reload()
+        window.location.reload();
       })
       .catch((error) => {
-        console.error('Error:', error);
+        console.error("Error:", error);
       });
   };
 
@@ -40,7 +40,7 @@ export default function Files() {
     event.preventDefault();
 
     if (!selectedFile) {
-      setError('Please select a PDF file.');
+      setError("Please select a PDF file.");
       return;
     }
 
@@ -49,14 +49,14 @@ export default function Files() {
 
     try {
       const formData = new FormData();
-      formData.append('pdfFile', selectedFile);
+      formData.append("pdfFile", selectedFile);
 
-      await axios.post('/api/pdfsplit', formData);
-      setSuccessMessage('Emails sent successfully.');
-      
+      await axios.post("/api/pdfsplit", formData);
+      setSuccessMessage("Emails sent successfully.");
+
       setLoading(false);
     } catch (error) {
-      setError('Error splitting PDF. Please try again later.');
+      setError("Error splitting PDF. Please try again later.");
       setLoading(false);
     }
   };
@@ -89,7 +89,7 @@ export default function Files() {
                   id="month"
                   value={month}
                   onChange={(e) => setMonth(e.target.value)}
-                  style={{ backgroundColor: '#F8F8F8' }}
+                  style={{ backgroundColor: "#F8F8F8" }}
                 />
               </div>
               <div className="formInput">
@@ -99,7 +99,7 @@ export default function Files() {
                   id="year"
                   value={year}
                   onChange={(e) => setYear(e.target.value)}
-                  style={{ backgroundColor: '#F8F8F8' }}
+                  style={{ backgroundColor: "#F8F8F8" }}
                 />
               </div>
               <div className="uploadform">
@@ -107,26 +107,39 @@ export default function Files() {
                   File:
                   <UploadFileIcon className="iconFile" />
                 </label>
-                <input type="file" id="file" style={{ display: 'none' }} className="fileupload" />
+                <input
+                  type="file"
+                  id="file"
+                  style={{ display: "none" }}
+                  className="fileupload"
+                />
                 <button type="submit">Upload</button>
               </div>
             </div>
           </form>
-          <form  onSubmit={handleSubmit} className='formfile'>
-          <div className="uploadformEmails">
-                <label htmlFor="file" className="fileuploadlabel">
-                  File:
-                  <UploadFileIcon className="iconFile" />
-                </label>
-                <input type="file" name="pdfFile" accept=".pdf"  onChange={handleFileChange}required/>
-                <button type="submit" disabled={loading}>Send Emails</button>
-              </div>
+          <form onSubmit={handleSubmit} className="formfile">
+            <div className="uploadformEmails">
+              <label htmlFor="file" className="fileuploadlabel">
+                File:
+                <UploadFileIcon className="iconFile" />
+              </label>
+              <input
+                type="file"
+                name="pdfFile"
+                accept=".pdf"
+                onChange={handleFileChange}
+                required
+              />
+              <button type="submit" disabled={loading}>
+                Send Emails
+              </button>
+            </div>
           </form>
-          <div className='EmailMessage'>
-          {error && <p>{error}</p>}
-          {successMessage && <p>{successMessage}</p>}
+          <div className="EmailMessage">
+            {error && <p>{error}</p>}
+            {successMessage && <p>{successMessage}</p>}
           </div>
-          
+
           <Datatable />
         </div>
       </div>
