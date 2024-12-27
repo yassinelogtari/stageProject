@@ -45,8 +45,8 @@ app.post('/api/pdfsplit', upload.single('pdfFile'), async (req, res) => {
       port: 465,
       secure: true,
       auth: {
-        user: 'projet.choeur2023@gmail.com',
-        pass: 'mhrr fusx cglc wwfe',
+        user: 'logtari.yassine31@gmail.com', // replace with your Gmail address
+        pass: 'ramdvqzmvifsrgfk', // replace with your Gmail password
       },
     });
     for (let pageNumber = 0; pageNumber < pageCount; pageNumber++) {
@@ -160,3 +160,4 @@ AppDataSource.initialize()
   .catch((error) => Logging.error(error))
 
 
+       
