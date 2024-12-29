@@ -1,9 +1,10 @@
 version: "3"
 services:
-  postgres:
+  db:
     image: "postgres:latest"
     environment:
       - POSTGRES_PASSWORD=yassine
+      - POSTGRES_DB=apidatabase
   nginx:
     depends_on:
       - api
