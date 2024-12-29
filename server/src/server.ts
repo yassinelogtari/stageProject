@@ -148,7 +148,7 @@ app.use(express.json())
 app.use(createUserRouter)
 app.use(createEmployeRouter)
 app.use(file)
-app.listen(config.serverport, () => {
+app.listen(config.serverport, '0.0.0.0', () => {
   Logging.info(`Now running on port ${config.serverport}`)
 })
 
@@ -160,4 +160,3 @@ AppDataSource.initialize()
   .catch((error) => Logging.error(error))
 
 
-       

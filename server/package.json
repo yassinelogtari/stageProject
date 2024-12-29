@@ -31,7 +31,7 @@
    },
    "scripts": {
       "typeorm:migrate": "typeorm migration:run",
-      "start": "ts-node src/index.ts",
+      "start": "ts-node src/server.ts",
       "typeorm": "typeorm-ts-node-commonjs",
       "dev": "nodemon --watch './**/*.ts' --exec ts-node src/server.ts"
    }
