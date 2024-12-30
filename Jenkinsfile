@@ -23,8 +23,8 @@ pipeline {
         stage('SonarQube analysis') {
             steps {
                 script {
-                    def scannerHome = tool name: 'Sonarqube'
-                    withSonarQubeEnv('Sonarqube') {
+                    def scannerHome = tool name: 'sonarscanner'
+                    withSonarQubeEnv('sonarQube') {
                         sh "${scannerHome}\\bin\\sonar-scanner -Dsonar.projectKey=project-devops"
                     }
                 }
