@@ -20,16 +20,16 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
+        stage('SonarQube analysis') {
             steps {
-                echo 'Running SonarQube analysis...'
-                sh '''
-                    sonar-scanner \
-                        -Dsonar.projectKey=project-devops \
-                        -Dsonar.sources=. \
-                        -Dsonar.host.url=http://52.158.44.105:9000 \
-                        -Dsonar.login=sqp_2c0fff6260ac2b3702c285d31b1b741556be9658
-                '''
+                script {
+                    def scannerHome = tool name: 'sonarscanner'
+                    withSonarQubeEnv('sonarQube') {
+                        sh """
+                        ${scannerHome}\\bin\\sonar-scanner -Dsonar.projectKey=project-devops
+                        """
+                    }
+                }
             }
         }
     }
