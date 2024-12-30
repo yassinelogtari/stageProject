@@ -7,6 +7,7 @@ pipeline {
                 dir('client') {
                     echo 'Installing front-end dependencies...'
                     sh 'npm install'
+                    echo "testing Devop branch"
                 }
             }
         }
@@ -26,6 +27,7 @@ pipeline {
                     def scannerHome = tool name: 'sonarscanner'
                     withSonarQubeEnv('Sonarqube') {
                         sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=project-devops"
+                        
                     }
                 }
             }
