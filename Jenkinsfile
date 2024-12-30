@@ -7,7 +7,7 @@ pipeline {
                 changeRequest()  // Triggered when a merge request is created
             }
             steps {
-                echo 'Merge Request Created: Running the first pipeline i will change this to test merge request'
+                echo 'Merge Request Created: Running the first pipeline this time it will works'
                 // Add your steps for the first pipeline here
             }
         }
