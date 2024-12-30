@@ -7,6 +7,7 @@ pipeline {
                 dir('client') {
                     echo 'Installing front-end dependencies...'
                     sh 'npm install'
+                    echo "testing Devop branch"
                 }
             }
         }
@@ -20,12 +21,23 @@ pipeline {
             }
         }
 
+        stage('Deploy Application') {
+            when {
+                branch 'release-*'  // Runs only when the branch name matches 'release-*'
+            }
+            steps {
+                script {
+                   echo "testing 3rd branch"
+                }
+            }
+        }
         stage('SonarQube analysis') {
             steps {
                 script {
                     def scannerHome = tool name: 'sonarscanner'
                     withSonarQubeEnv('Sonarqube') {
                         sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=project-devops"
+                        
                     }
                 }
             }
