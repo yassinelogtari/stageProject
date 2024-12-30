@@ -7,7 +7,7 @@ pipeline {
                 changeRequest()  // Triggered when a merge request is created
             }
             steps {
-                echo 'Merge Request Created: Running the first pipeline'
+                echo 'Merge Request Created: Running the first pipeline i will change this to test merge request'
                 // Add your steps for the first pipeline here
             }
         }
@@ -18,7 +18,7 @@ pipeline {
                 branch 'Develop'  // Triggered when the develop branch is merged with new code
             }
             steps {
-                echo 'Code merged to develop: Running the second pipeline'
+                echo 'code merged with release-test'
                 // Add your steps for the second pipeline here
             }
         }
