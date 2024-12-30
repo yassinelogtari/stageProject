@@ -15,7 +15,7 @@ pipeline {
         // Second pipeline: Triggered when code is merged into the Develop branch
         stage('Code Merged to Develop') {
             when {
-                branch 'develop'  // Triggered when the develop branch is merged with new code
+                branch 'Develop'  // Triggered when the develop branch is merged with new code
             }
             steps {
                 echo 'Code merged to develop: Running the second pipeline'
