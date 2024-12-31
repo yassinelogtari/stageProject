@@ -9,8 +9,37 @@ pipeline {
                 }
             }
             steps {
-                echo 'Merge Request Created: Running the first pipeline hhhhhhhh'
-                // Add your steps for the first pipeline here
+                /     stages {
+         stage('Front-end: npm install') {
+             steps {
+                 dir('client') {
+                     echo 'Installing front-end dependencies...'
+                     sh 'npm install'
+                 }
+             }
+         }
+
+         stage('Back-end: npm install') {
+             steps {
+                 dir('server') {
+                     echo 'Installing back-end dependencies...'
+                     sh 'npm install'
+                 }
+             }
+         }
+
+         stage('SonarQube analysis') {
+             steps {
+                 script {
+                     def scannerHome = tool name: 'sonarscanner' // Name as configured in Jenkins
+                     withSonarQubeEnv('Sonarqube') { // Name of your SonarQube instance
+                         sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=project-devops"
+                     }
+                 }
+             }
+         }
+     }
+                }
             }
         }
 
@@ -22,8 +51,34 @@ pipeline {
                 branch 'Develop'  // Triggered when the develop branch is merged with new code
             }
             steps {
-                echo 'code merged with release-test'
-                // Add your steps for the second pipeline here
+                stage('Front-end: npm install') {
+             steps {
+                 dir('client') {
+                     echo 'Installing front-end dependencies...'
+                     sh 'npm install'
+                 }
+             }
+         }
+
+         stage('Back-end: npm install') {
+             steps {
+                 dir('server') {
+                     echo 'Installing back-end dependencies...'
+                     sh 'npm install'
+                 }
+             }
+         }
+
+         stage('SonarQube analysis') {
+             steps {
+                 script {
+                     def scannerHome = tool name: 'sonarscanner' // Name as configured in Jenkins
+                     withSonarQubeEnv('Sonarqube') { // Name of your SonarQube instance
+                         sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=project-devops"
+                     }
+                 }
+             }
+         }
             }
         }
 
@@ -33,8 +88,30 @@ pipeline {
                 branch pattern: '^release-.*', comparator: 'REGEXP'  // Triggered when a branch with the name release-* is created
             }
             steps {
-                echo 'Release Branch Created: Running the third pipeline'
-                // Add your steps for the third pipeline here
+                script {
+                    echo 'Release Branch Created: Running the pipeline'
+
+                    // Extract the version from the branch name
+                    def version = env.BRANCH_NAME.replace('release-', '')
+                    def imageName = "logtari31/testapp:${version}"
+
+                    // Stage 1: Build and Push Docker Image
+                    echo "Building Docker image with tag ${imageName}"
+                    sh "docker build -t ${imageName} ."
+                    
+                    echo "Pushing Docker image to the registry"
+                    sh "docker login -u logtari31 -p Bq#NstR53vwt,m]"
+                    sh "docker push ${imageName}"
+
+                    // Stage 2: Deploy Application
+                    // echo "Deploying application using image ${imageName}"
+                    // sh """
+                    //     docker pull ${imageName}
+                    //     docker stop my-app || true
+                    //     docker rm my-app || true
+                    //     docker run -d --name my-app -p 80:80 ${imageName}
+                    // """
+                }
             }
         }
     }
