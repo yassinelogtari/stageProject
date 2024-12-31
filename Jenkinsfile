@@ -4,7 +4,9 @@ pipeline {
         // First pipeline: Triggered when a merge request is created
         stage('Merge Request Trigger') {
             when {
-                changeRequest()  // Triggered when a merge request is created
+                 expression {
+                    return env.CHANGE_ID != null // Trigger if it's a merge request
+                }
             }
             steps {
 
