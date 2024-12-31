@@ -14,6 +14,15 @@ pipeline {
             }
         }
 
+        stage('Debug Environment') {
+    steps {
+        script {
+            env.each { k, v -> echo "$k = $v" }
+        }
+    }
+}
+
+
         // Second pipeline: Triggered when code is merged into the Develop branch
         stage('Code Merged to Develop') {
             when {
