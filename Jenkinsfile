@@ -9,8 +9,7 @@ pipeline {
                 }
             }
             steps {
-
-                echo 'Merge Request Created: Running the first pipeline yaaa rabiii'
+                echo 'Merge Request Created: Running the first pipeline hhhhhhhh'
                 // Add your steps for the first pipeline here
             }
         }
