@@ -8,32 +8,19 @@ pipeline {
                 }
             }
             steps {
-                stage('Front-end: npm install') {
-                    steps {
-                        dir('client') {
-                            echo 'Installing front-end dependencies...'
-                            sh 'npm install'
-                        }
-                    }
+                echo 'Processing merge request...'
+                dir('client') {
+                    echo 'Installing front-end dependencies...'
+                    sh 'npm install'
                 }
-
-                stage('Back-end: npm install') {
-                    steps {
-                        dir('server') {
-                            echo 'Installing back-end dependencies...'
-                            sh 'npm install'
-                        }
-                    }
+                dir('server') {
+                    echo 'Installing back-end dependencies...'
+                    sh 'npm install'
                 }
-
-                stage('SonarQube analysis') {
-                    steps {
-                        script {
-                            def scannerHome = tool name: 'sonarscanner'
-                            withSonarQubeEnv('Sonarqube') {
-                                sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=project-devops"
-                            }
-                        }
+                script {
+                    def scannerHome = tool name: 'sonarscanner'
+                    withSonarQubeEnv('Sonarqube') {
+                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=project-devops"
                     }
                 }
             }
@@ -44,32 +31,19 @@ pipeline {
                 branch 'Develop'
             }
             steps {
-                stage('Front-end: npm install') {
-                    steps {
-                        dir('client') {
-                            echo 'Installing front-end dependencies...'
-                            sh 'npm install'
-                        }
-                    }
+                echo 'Processing code merged to Develop...'
+                dir('client') {
+                    echo 'Installing front-end dependencies...'
+                    sh 'npm install'
                 }
-
-                stage('Back-end: npm install') {
-                    steps {
-                        dir('server') {
-                            echo 'Installing back-end dependencies...'
-                            sh 'npm install'
-                        }
-                    }
+                dir('server') {
+                    echo 'Installing back-end dependencies...'
+                    sh 'npm install'
                 }
-
-                stage('SonarQube analysis') {
-                    steps {
-                        script {
-                            def scannerHome = tool name: 'sonarscanner'
-                            withSonarQubeEnv('Sonarqube') {
-                                sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=project-devops"
-                            }
-                        }
+                script {
+                    def scannerHome = tool name: 'sonarscanner'
+                    withSonarQubeEnv('Sonarqube') {
+                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=project-devops"
                     }
                 }
             }
