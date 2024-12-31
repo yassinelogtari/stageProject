@@ -5,7 +5,7 @@ pipeline {
         stage('Merge Request Trigger') {
             when {
                  expression {
-                    return env.CHANGE_ID = null // Trigger if it's a merge request
+                    return env.CHANGE_ID != null // Trigger if it's a merge request
                 }
             }
             steps {
@@ -14,13 +14,6 @@ pipeline {
             }
         }
 
-        stage('Debug Environment') {
-    steps {
-        script {
-            env.each { k, v -> echo "$k = $v" }
-        }
-    }
-}
 
 
         // Second pipeline: Triggered when code is merged into the Develop branch
