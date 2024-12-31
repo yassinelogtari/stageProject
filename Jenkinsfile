@@ -60,7 +60,7 @@ pipeline {
                     def imageName = "logtari31/testapp:${version}"
 
                     echo "Building Docker image with tag ${imageName}"
-                    sh "docker build -t ${imageName} ."
+                     sh "docker build -t ${imageName} -f client/Dockerfile client/"
 
                     echo "Pushing Docker image to the registry"
                     withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
