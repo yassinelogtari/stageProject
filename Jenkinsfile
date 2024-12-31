@@ -5,7 +5,7 @@ pipeline {
         stage('Merge Request Trigger') {
             when {
                  expression {
-                    return env.CHANGE_ID != null // Trigger if it's a merge request
+                    return env.CHANGE_ID = null // Trigger if it's a merge request
                 }
             }
             steps {
