@@ -5,12 +5,11 @@ pipeline {
         stage('Merge Request Trigger') {
             when {
                  expression {
-                    return env.CHANGE_ID != null // Trigger if it's a merge request
+                    return env.CHANGE_ID = null // Trigger if it's a merge request
                 }
             }
             steps {
-
-                echo 'Merge Request Created: Running the first pipeline yaaa rabiii'
+                echo 'Merge Request Created: Running the first pipeline hhhhhhhh'
                 // Add your steps for the first pipeline here
             }
         }
