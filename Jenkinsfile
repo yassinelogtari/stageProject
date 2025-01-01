@@ -63,7 +63,7 @@ pipeline {
                     sh "docker build -t ${imageName} -f client/Dockerfile client/"
 
                     echo "Pushing Docker image to the registry"
-                    withCredentials([usernamePassword(credentialsId: 'logtari31-dockerhub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    withCredentials([usernamePassword(credentialsId: 'logtari31-dockerhub', usernameVariable: 'logtari31', passwordVariable: 'dckr_pat__3zmHH2_U1esanJQk0DrES71xYc')]) {
                         sh "docker login -u $DOCKER_USER -p $DOCKER_PASS"
                     }
                     sh "docker push ${imageName}"
