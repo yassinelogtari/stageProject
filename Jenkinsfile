@@ -1,38 +1,152 @@
 pipeline {
     agent any
     stages {
-        // First pipeline: Triggered when a merge request is created
         stage('Merge Request Trigger') {
             when {
-                 expression {
-                    return env.CHANGE_ID = null // Trigger if it's a merge request
+                expression {
+                    return env.CHANGE_ID != null
                 }
             }
-            steps {
-                echo 'Merge Request Created: Running the first pipeline hhhhhhhh'
-                // Add your steps for the first pipeline here
+            stages {
+                stage('Build') {
+                    steps {
+                        echo 'Building the app...'
+                        dir('client') {
+                            echo 'Building front-end...'
+                            sh 'npm run build'
+                        }
+                        dir('server') {
+                            echo 'Building back-end...'
+                            sh 'npm run build'
+                        }
+                    }
+                }
+
+                stage('Unit Test') {
+                    steps {
+                        echo 'Running unit tests...'
+                        dir('client') {
+                            echo 'Running front-end unit tests...'
+                            sh 'npm test'
+                        }
+                        dir('server') {
+                            echo 'Running back-end unit tests...'
+                            sh 'npm test'
+                        }
+                    }
+                }
+
+                stage('Sonar') {
+                    steps {
+                        script {
+                            def scannerHome = tool name: 'sonarscanner'
+                            withSonarQubeEnv('Sonarqube') {
+                                sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=project-devops"
+                            }
+                        }
+                    }
+                }
+
+                stage('Integration Test') {
+                    steps {
+                        echo 'Running integration tests...'
+                        dir('client') {
+                            echo 'Running front-end integration tests...'
+                            sh 'npm run integration-test'
+                        }
+                        dir('server') {
+                            echo 'Running back-end integration tests...'
+                            sh 'npm run integration-test'
+                        }
+                    }
+                }
             }
         }
 
-        // Second pipeline: Triggered when code is merged into the Develop branch
         stage('Code Merged to Develop') {
             when {
-                branch 'Develop'  // Triggered when the develop branch is merged with new code
+                branch 'Develop'
             }
-            steps {
-                echo 'code merged with release-test'
-                // Add your steps for the second pipeline here
+            stages {
+                stage('Build') {
+                    steps {
+                        echo 'Building the app...'
+                        dir('client') {
+                            echo 'Building front-end...'
+                            sh 'npm run build'
+                        }
+                        dir('server') {
+                            echo 'Building back-end...'
+                            sh 'npm run build'
+                        }
+                    }
+                }
+
+                stage('Unit Test') {
+                    steps {
+                        echo 'Running unit tests...'
+                        dir('client') {
+                            echo 'Running front-end unit tests...'
+                            sh 'npm test'
+                        }
+                    }
+                }
+
+                stage('Sonar') {
+                    steps {
+                        script {
+                            def scannerHome = tool name: 'sonarscanner'
+                            withSonarQubeEnv('Sonarqube') {
+                                sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=project-devops"
+                            }
+                        }
+                    }
+                }
+
+                stage('Integration Test') {
+                    steps {
+                        echo 'Running integration tests...'
+                        dir('client') {
+                            echo 'Running front-end integration tests...'
+                            sh 'npm run integration-test'
+                        }
+                    }
+                }
             }
         }
 
-        // Third pipeline: Triggered when a branch with the name release-* is created
         stage('Release Branch Trigger') {
             when {
-                branch pattern: '^release-.*', comparator: 'REGEXP'  // Triggered when a branch with the name release-* is created
+                branch pattern: '^release-.*', comparator: 'REGEXP'
             }
-            steps {
-                echo 'Release Branch Created: Running the third pipeline'
-                // Add your steps for the third pipeline here
+            stages {
+                stage('Build Docker Image') {
+                    steps {
+                        script {
+                            echo 'Release Branch Created: Running the pipeline'
+                            def version = env.BRANCH_NAME.replace('release-', '')
+                            def imageName = "logtari31/testapp:${version}"
+
+                            echo "Building Docker image with tag ${imageName}"
+                            sh "docker build -t ${imageName} -f client/Dockerfile client/"
+                            sh "docker build -t ${imageName}-backend -f server/Dockerfile server/"
+
+                            echo "Pushing Docker image to the registry"
+                            withCredentials([usernamePassword(credentialsId: 'logtari31-dockerhub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                                sh "docker login -u $DOCKER_USER -p $DOCKER_PASS"
+                            }
+                            sh "docker push ${imageName}"
+                            sh "docker push ${imageName}-backend"
+                        }
+                    }
+                }
+
+                stage('Deploy Application') {
+                    steps {
+                        echo 'Deploying the application using the created Docker images...'
+                        sh 'docker-compose up -d'
+                    }
+                }
             }
         }
     }
@@ -48,53 +162,3 @@ pipeline {
         }
     }
 }
-
-
-
-
-// pipeline {
-//     agent any
-
-//     stages {
-//         stage('Front-end: npm install') {
-//             steps {
-//                 dir('client') {
-//                     echo 'Installing front-end dependencies...'
-//                     sh 'npm install'
-//                 }
-//             }
-//         }
-
-//         stage('Back-end: npm install') {
-//             steps {
-//                 dir('server') {
-//                     echo 'Installing back-end dependencies...'
-//                     sh 'npm install'
-//                 }
-//             }
-//         }
-
-//         stage('SonarQube analysis') {
-//             steps {
-//                 script {
-//                     def scannerHome = tool name: 'sonarscanner' // Name as configured in Jenkins
-//                     withSonarQubeEnv('Sonarqube') { // Name of your SonarQube instance
-//                         sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=project-devops"
-//                     }
-//                 }
-//             }
-//         }
-//     }
-
-//     post {
-//         always {
-//             echo 'Pipeline execution completed.'
-//         }
-//         success {
-//             echo 'Pipeline executed successfully!'
-//         }
-//         failure {
-//             echo 'Pipeline failed. Check the logs for details.'
-//         }
-//     }
-// }
