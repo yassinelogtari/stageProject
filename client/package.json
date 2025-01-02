@@ -14,7 +14,7 @@
     "axios": "^1.7.9",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^7.1.1",
+    "react-router-dom": "^6.28.1",
     "react-scripts": "^5.0.1",
     "recharts": "^2.15.0",
     "sass": "^1.83.0",
@@ -47,5 +47,11 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://0.0.0.0:8050"
+  "proxy": "http://0.0.0.0:8050",
+  "devDependencies": {
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "jest": "^29.7.0"
+  }
 }
