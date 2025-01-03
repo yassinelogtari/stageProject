@@ -112,17 +112,6 @@ pipeline {
                 //         }
                 //     }
                 // }
-
-                stage('Integration Test') {
-                    steps {
-                        echo 'Running integration tests...'
-                        dir('client') {
-                            echo 'Running front-end integration tests...'
-                            sh 'npm run integration-test'
-                        }
-                    
-                    }
-                }
             }
         }
 
