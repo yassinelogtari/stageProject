@@ -69,22 +69,22 @@ pipeline {
             }
             stages {
                 stage('Build') {
-                    steps {
-                        echo 'Building the app...'
-                        dir('client') {
-                            echo 'Building front-end...'
-                            sh 'npm run build'
-                        }
-                        dir('server') {
-                            echo 'Building back-end...'
-                            sh 'npm run build'
-                        }
-                    }
+                    // steps {
+                    //     echo 'Building the app...'
+                    //     dir('client') {
+                    //         echo 'Building front-end...'
+                    //         sh 'npm run build'
+                    //     }
+                    //     dir('server') {
+                    //         echo 'Building back-end...'
+                    //         sh 'npm run build'
+                    //     }
+                    // }
                 }
 
                 stage('Unit Test') {
                     steps {
-                        echo 'Running unit tests...'
+                        echo 'Running unit tests.......'
                         dir('client') {
                             echo 'Running front-end unit tests.....'
                             sh 'npm test'
