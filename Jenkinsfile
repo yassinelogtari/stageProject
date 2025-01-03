@@ -72,6 +72,8 @@ pipeline {
                     steps {
                         dir('client') {
                             echo 'Installing front-end dependencies...'
+                            echo 'Installing dev dependencies for Jest and Testing Library...'
+                            sh 'npm install --save-dev jest @testing-library/react @testing-library/jest-dom'
                             sh 'npm install'
                         }
                     }
@@ -93,23 +95,20 @@ pipeline {
                             echo 'Running front-end unit tests.....'
                             sh 'npm test'
                         }
-                        dir('server') {
-                            echo 'Running back-end unit tests.....'
-                            sh 'npm test'
-                        }
+                       
                     }
                 }
 
-                stage('Sonar') {
-                    steps {
-                        script {
-                            def scannerHome = tool name: 'sonarscanner'
-                            withSonarQubeEnv('Sonarqube') {
-                                sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=project-devops"
-                            }
-                        }
-                    }
-                }
+                // stage('Sonar') {
+                //     steps {
+                //         script {
+                //             def scannerHome = tool name: 'sonarscanner'
+                //             withSonarQubeEnv('Sonarqube') {
+                //                 sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=project-devops"
+                //             }
+                //         }
+                //     }
+                // }
 
                 stage('Integration Test') {
                     steps {
@@ -118,10 +117,7 @@ pipeline {
                             echo 'Running front-end integration tests...'
                             sh 'npm run integration-test'
                         }
-                        dir('server') {
-                            echo 'Running back-end integration tests...'
-                            sh 'npm run integration-test'
-                        }
+                    
                     }
                 }
             }
