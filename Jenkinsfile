@@ -65,28 +65,36 @@ pipeline {
 
         stage('Code Merged to Develop') {
             when {
-                branch 'Develop'
+                branch 'develop'
             }
             stages {
-                // stage('Build') {
-                //     // steps {
-                //     //     echo 'Building the app...'
-                //     //     dir('client') {
-                //     //         echo 'Building front-end...'
-                //     //         sh 'npm run build'
-                //     //     }
-                //     //     dir('server') {
-                //     //         echo 'Building back-end...'
-                //     //         sh 'npm run build'
-                //     //     }
-                //     // }
-                // }
+                stage('Front-end: npm install') {
+                    steps {
+                        dir('client') {
+                            echo 'Installing front-end dependencies...'
+                            sh 'npm install'
+                        }
+                    }
+                }
+
+                stage('Back-end: npm install') {
+                    steps {                
+                        dir('server') {
+                            echo 'Installing back-end dependencies...'
+                            sh 'npm install'
+                        }
+                    }
+                }
 
                 stage('Unit Test') {
                     steps {
                         echo 'Running unit tests.......'
                         dir('client') {
                             echo 'Running front-end unit tests.....'
+                            sh 'npm test'
+                        }
+                        dir('server') {
+                            echo 'Running back-end unit tests.....'
                             sh 'npm test'
                         }
                     }
@@ -108,6 +116,10 @@ pipeline {
                         echo 'Running integration tests...'
                         dir('client') {
                             echo 'Running front-end integration tests...'
+                            sh 'npm run integration-test'
+                        }
+                        dir('server') {
+                            echo 'Running back-end integration tests...'
                             sh 'npm run integration-test'
                         }
                     }
