@@ -95,7 +95,7 @@ pipeline {
                     steps {
                         echo 'Running unit tests.......'
                         dir('client') {
-                            echo 'Running front-end unit tests.....'
+                            echo 'Running front-end unit tests..... bech te5dem'
                             sh 'npm test'
                         }
                        
