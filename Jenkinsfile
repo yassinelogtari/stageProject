@@ -68,19 +68,19 @@ pipeline {
                 branch 'Develop'
             }
             stages {
-                stage('Build') {
-                    // steps {
-                    //     echo 'Building the app...'
-                    //     dir('client') {
-                    //         echo 'Building front-end...'
-                    //         sh 'npm run build'
-                    //     }
-                    //     dir('server') {
-                    //         echo 'Building back-end...'
-                    //         sh 'npm run build'
-                    //     }
-                    // }
-                }
+                // stage('Build') {
+                //     // steps {
+                //     //     echo 'Building the app...'
+                //     //     dir('client') {
+                //     //         echo 'Building front-end...'
+                //     //         sh 'npm run build'
+                //     //     }
+                //     //     dir('server') {
+                //     //         echo 'Building back-end...'
+                //     //         sh 'npm run build'
+                //     //     }
+                //     // }
+                // }
 
                 stage('Unit Test') {
                     steps {
