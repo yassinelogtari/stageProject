@@ -4,15 +4,14 @@ pipeline {
         nodejs 'nodejs'
     }
     stages {
-        stage('Debug Variables') {
-            steps {
-                script {
-                    echo "test CHANGE_ID: ${env.CHANGE_ID}"
-                    echo "BRANCH_NAME: ${env.BRANCH_NAME}"
-                    echo "CHANGE_BRANCH: ${env.CHANGE_BRANCH}"
-                }
-            }
+        stage('Test') {
+      when { changeRequest() }
+      steps {
+        script {
+          echo "Current Pull Request ID: ${env.CHANGE_ID}"
         }
+      }
+    }
 
         stage('Code Merged to Develop') {
             when {
