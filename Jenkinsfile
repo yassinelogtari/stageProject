@@ -3,11 +3,14 @@ pipeline {
     tools {
         nodejs 'nodejs'
     }
-    triggers {
-        upstream(upstreamProjects: 'merge_request', threshold: hudson.model.Result.SUCCESS)
-    }
     stages {
         stage('Merge Request Trigger') {
+            when {
+                expression {
+                    // Execute this stage only for pull requests
+                    return env.CHANGE_ID != null
+                }
+            }
             steps {
                 echo 'Triggered by merge request'
                 echo 'Executing initial tests...'
