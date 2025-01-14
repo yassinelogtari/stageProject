@@ -7,7 +7,7 @@ pipeline {
         stage('Debug Variables') {
             steps {
                 script {
-                    echo "CHANGE_ID: ${env.CHANGE_ID}"
+                    echo "test CHANGE_ID: ${env.CHANGE_ID}"
                     echo "BRANCH_NAME: ${env.BRANCH_NAME}"
                     echo "CHANGE_BRANCH: ${env.CHANGE_BRANCH}"
                 }
