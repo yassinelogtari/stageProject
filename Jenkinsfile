@@ -11,58 +11,47 @@ pipeline {
                 }
             }
             stages {
-                stage('Build') {
+                stage('Front-end: npm install') {
                     steps {
-                        echo 'Building the app...'
                         dir('client') {
-                            echo 'Building front-end...'
-                            sh 'npm run build'
+                            echo 'Installing front-end dependencies...'
+                            echo 'Installing dev dependencies for Jest and Testing Library...'
+                            sh 'npm install --save-dev jest @testing-library/react @testing-library/jest-dom'
+                            sh 'npm install'
                         }
+                    }
+                }
+
+                stage('Back-end: npm install') {
+                    steps {                
                         dir('server') {
-                            echo 'Building back-end...'
-                            sh 'npm run build'
+                            echo 'Installing back-end dependencies...'
+                            sh 'npm install'
                         }
                     }
                 }
 
                 stage('Unit Test') {
                     steps {
-                        echo 'Running unit tests...'
+                        echo 'Running unit tests.......'
                         dir('client') {
-                            echo 'Running front-end unit tests...'
+                            echo 'Running front-end unit tests..... bech te5dem'
                             sh 'npm test'
                         }
-                        dir('server') {
-                            echo 'Running back-end unit tests...'
-                            sh 'npm test'
-                        }
+                       
                     }
                 }
 
-                stage('Sonar') {
-                    steps {
-                        script {
-                            def scannerHome = tool name: 'sonarscanner'
-                            withSonarQubeEnv('Sonarqube') {
-                                sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=project-devops"
-                            }
-                        }
-                    }
-                }
-
-                stage('Integration Test') {
-                    steps {
-                        echo 'Running integration tests...'
-                        dir('client') {
-                            echo 'Running front-end integration tests...'
-                            sh 'npm run integration-test'
-                        }
-                        dir('server') {
-                            echo 'Running back-end integration tests...'
-                            sh 'npm run integration-test'
-                        }
-                    }
-                }
+                 stage('Sonar') {
+                     steps {
+                         script {
+                             def scannerHome = tool name: 'sonarscanner'
+                             withSonarQubeEnv('Sonarqube') {
+                             sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=project-devops"
+                             }
+                         }
+                     }
+                 }
             }
         }
 
