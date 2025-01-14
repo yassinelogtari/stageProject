@@ -3,7 +3,7 @@ import "./navbar.scss"
 import avatar from '../../images/avatar.png'
 
 const Navbar =()=>{
-    //test pipline
+    //test merge branche
     let userName = localStorage.getItem('username');
     return (
         <div className="navbar">
