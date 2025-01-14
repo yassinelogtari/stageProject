@@ -6,8 +6,9 @@ pipeline {
     stages {
         stage('Merge Request Trigger') {
             when {
-                
-                env.CHANGE_ID != null
+                expression {
+                    return env.CHANGE_ID != null
+                }
             }
             steps {
                 echo 'Triggered by merge request'
@@ -24,7 +25,6 @@ pipeline {
                     steps {
                         dir('client') {
                             echo 'Installing front-end dependencies...'
-                            echo 'Installing dev dependencies for Jest and Testing Library...'
                             sh 'npm install --save-dev jest @testing-library/react @testing-library/jest-dom'
                             sh 'npm install'
                         }
@@ -42,7 +42,6 @@ pipeline {
 
                 stage('Unit Test') {
                     steps {
-                        echo 'Running unit tests...'
                         dir('client') {
                             echo 'Running front-end unit tests...'
                             sh 'npm test'
@@ -71,7 +70,6 @@ pipeline {
                 stage('Build Docker Image') {
                     steps {
                         script {
-                            echo 'Release Branch Created: Running the pipeline'
                             def version = env.BRANCH_NAME.replace('release-', '')
                             def imageName = "logtari31/testapp:${version}"
 
