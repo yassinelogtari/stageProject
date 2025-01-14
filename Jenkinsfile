@@ -3,18 +3,15 @@ pipeline {
     tools {
         nodejs 'nodejs'
     }
+    triggers {
+        upstream(upstreamProjects: 'merge_request', threshold: hudson.model.Result.SUCCESS)
+    }
     stages {
         stage('Merge Request Trigger') {
-            triggers {
-        upstream(upstreamProjects: 'merge_request', threshold: hudson.model.Result.SUCCESS)
-        stages{
-            stage("testt pipe")
             steps {
-                echo 'test merge'
+                echo 'Triggered by merge request'
+                echo 'Executing initial tests...'
             }
-        }
-    }
-            
         }
 
         stage('Code Merged to Develop') {
@@ -34,7 +31,7 @@ pipeline {
                 }
 
                 stage('Back-end: npm install') {
-                    steps {                
+                    steps {
                         dir('server') {
                             echo 'Installing back-end dependencies...'
                             sh 'npm install'
@@ -44,25 +41,24 @@ pipeline {
 
                 stage('Unit Test') {
                     steps {
-                        echo 'Running unit tests.......'
+                        echo 'Running unit tests...'
                         dir('client') {
-                            echo 'Running front-end unit tests..... bech te5dem'
+                            echo 'Running front-end unit tests...'
                             sh 'npm test'
                         }
-                       
                     }
                 }
 
-                 stage('Sonar') {
-                     steps {
-                         script {
-                             def scannerHome = tool name: 'sonarscanner'
-                             withSonarQubeEnv('Sonarqube') {
-                             sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=project-devops"
-                             }
-                         }
-                     }
-                 }
+                stage('Sonar') {
+                    steps {
+                        script {
+                            def scannerHome = tool name: 'sonarscanner'
+                            withSonarQubeEnv('Sonarqube') {
+                                sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=project-devops"
+                            }
+                        }
+                    }
+                }
             }
         }
 
