@@ -4,8 +4,8 @@ pipeline {
         nodejs 'nodejs'
     }
     stages {
-        stage('Merge Request Trigger') {
-when {
+     stage('Merge Request Trigger') {
+    when {
         expression {
             return env.CHANGE_ID != null && env.BRANCH_NAME == env.CHANGE_BRANCH
         }
@@ -13,7 +13,8 @@ when {
     steps {
         echo "Triggered by merge request on the source branch: ${env.CHANGE_BRANCH}"
         echo 'Executing tests on the source branch...'
-    }        }
+    }
+}
 
         stage('Code Merged to Develop') {
             when {
