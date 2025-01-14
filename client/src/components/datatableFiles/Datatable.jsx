@@ -20,7 +20,7 @@ const actionColumn = [
             await axios.delete(`/api/file/${file_id}`);
             window.location.reload();
           } catch (error) {
-            console.error(error);
+            
           }
         }
         return (
