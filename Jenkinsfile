@@ -4,16 +4,15 @@ pipeline {
         nodejs 'nodejs'
     }
     stages {
-        stage('Test') {
-    
-      steps {
-        script {
-                    echo " test CHANGE_ID: ${env.CHANGE_ID}"
+        stage('Debug Variables') {
+            steps {
+                script {
+                    echo "CHANGE_ID: ${env.CHANGE_ID}"
                     echo "BRANCH_NAME: ${env.BRANCH_NAME}"
                     echo "CHANGE_BRANCH: ${env.CHANGE_BRANCH}"
                 }
-      }
-    }
+            }
+        }
 
         stage('Code Merged to Develop') {
             when {
