@@ -6,10 +6,8 @@ pipeline {
     stages {
         stage('Merge Request Trigger') {
             when {
-                expression {
-                    // Execute this stage only for pull requests
-                    return env.CHANGE_ID != null
-                }
+                
+                env.CHANGE_ID != null
             }
             steps {
                 echo 'Triggered by merge request'
