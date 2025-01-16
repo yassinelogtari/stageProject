@@ -3,7 +3,7 @@ import "./navbar.scss"
 import avatar from '../../images/avatar.png'
 
 const Navbar =()=>{
-    //test merge branche
+    //test merge branche Devlop
     let userName = localStorage.getItem('username');
     return (
         <div className="navbar">
