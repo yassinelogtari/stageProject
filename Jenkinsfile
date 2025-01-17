@@ -8,13 +8,46 @@ pipeline {
       when {
                 changeRequest()
             }
-      steps {   
-        script {
-                    echo " test CHANGE_ID: ${env.CHANGE_ID}"
-                    echo "BRANCH_NAME: ${env.BRANCH_NAME}"
-                    echo "CHANGE_BRANCH: ${env.CHANGE_BRANCH}"
+      stages {
+                stage('Front-end: npm install') {
+                    steps {
+                        dir('client') {
+                            echo 'Installing front-end dependencies...'
+                            sh 'npm install --save-dev jest @testing-library/react @testing-library/jest-dom'
+                            sh 'npm install'
+                        }
+                    }
                 }
-      }
+
+                stage('Back-end: npm install') {
+                    steps {
+                        dir('server') {
+                            echo 'Installing back-end dependencies...'
+                            sh 'npm install'
+                        }
+                    }
+                }
+
+                stage('Unit Test') {
+                    steps {
+                        dir('client') {
+                            echo 'Running front-end unit tests...'
+                            sh 'npm test'
+                        }
+                    }
+                }
+
+                stage('Sonar') {
+                    steps {
+                        script {
+                            def scannerHome = tool name: 'sonarscanner'
+                            withSonarQubeEnv('Sonarqube') {
+                                sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=project-devops"
+                            }
+                        }
+                    }
+                }
+            }
     }
 
         stage('Code Merged to Develop') {
