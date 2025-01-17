@@ -4,18 +4,55 @@ pipeline {
         nodejs 'nodejs'
     }
     stages {
-        stage('Test') {
-      when { changeRequest() }
-      steps {
-        script {
-          echo "Current Pull Request ID: ${env.CHANGE_ID}"
-        }
-      }
+        stage('pull request') {
+      when {
+                changeRequest()
+            }
+      stages {
+                stage('Front-end: npm install') {
+                    steps {
+                        dir('client') {
+                            echo 'Installing front-end dependencies...'
+                            sh 'npm install --save-dev jest @testing-library/react @testing-library/jest-dom'
+                            sh 'npm install'
+                        }
+                    }
+                }
+
+                stage('Back-end: npm install') {
+                    steps {
+                        dir('server') {
+                            echo 'Installing back-end dependencies...'
+                            sh 'npm install'
+                        }
+                    }
+                }
+
+                stage('Unit Test') {
+                    steps {
+                        dir('client') {
+                            echo 'Running front-end unit tests...'
+                            sh 'npm test'
+                        }
+                    }
+                }
+
+                stage('Sonar') {
+                    steps {
+                        script {
+                            def scannerHome = tool name: 'sonarscanner'
+                            withSonarQubeEnv('Sonarqube') {
+                                sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=project-devops"
+                            }
+                        }
+                    }
+                }
+            }
     }
 
         stage('Code Merged to Develop') {
             when {
-                branch 'develop'
+                branch 'Develop'
             }
             stages {
                 stage('Front-end: npm install') {
