@@ -5,10 +5,10 @@ pipeline {
     }
     stages {
         stage('pull request') {
-      when {
+            when {
                 changeRequest()
             }
-      stages {
+         stages {
                 stage('Front-end: npm install') {
                     steps {
                         dir('client') {
