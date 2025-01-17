@@ -4,9 +4,11 @@ pipeline {
         nodejs 'nodejs'
     }
     stages {
-        stage('Test') {
-      when { changeRequest() }
-      steps {
+        stage('pull request') {
+      when {
+                changeRequest()
+            }
+      steps {   
         script {
           echo "Current Pull Request ID: ${env.CHANGE_ID}"
         }
@@ -15,7 +17,7 @@ pipeline {
 
         stage('Code Merged to Develop') {
             when {
-                branch 'develop'
+                branch 'Develop'
             }
             stages {
                 stage('Front-end: npm install') {
