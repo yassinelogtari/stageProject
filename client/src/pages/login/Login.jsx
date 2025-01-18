@@ -50,7 +50,7 @@ export default function Login() {
           <img src={cimf} alt="" />
         </div>
         <div className="logInFormTitleContainer">
-          <h3 className="logInTitle">Log In</h3>
+          <h3 className="logInTitle">Log In validation2</h3>
           <p className="paragrapeh"> Enter your username and your password </p>
         </div>
         <form className="logInForm" onSubmit={handleLogin}>
